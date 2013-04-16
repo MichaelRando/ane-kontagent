@@ -14,6 +14,7 @@ public class KontagentLib extends Context {
   private String mode;
   private String userId;
   private boolean isDebugEnabled;
+  static private String androidId;
 
   public KontagentLib() {
     registerFunction("libraryVersion");
@@ -37,20 +38,28 @@ public class KontagentLib extends Context {
   @Override
   protected void initContext() {
     isDebugEnabled = getBooleanProperty("KTDebug");
-    if (isDebugEnabled)
+    if (isDebugEnabled) {
       Kontagent.enableDebug();
-    apiKey = getProperty("KTAPIKey");
-    if (apiKey != null) {
-      boolean isTest = getBooleanProperty("KTTestMode");
-      mode = isTest ? Kontagent.TEST_MODE : Kontagent.PRODUCTION_MODE;
-      Extension.debug("Auto-initializing Kontagent(%s,%s)", apiKey, mode);
-      Kontagent.startSession(apiKey, getActivity(), mode, userId, false);
-
-      String androidId = Secure.getString(getActivity().getContentResolver(), Secure.ANDROID_ID);
-      Map<String, String> params = new HashMap<String, String>();
-      params.put("su", androidId);
-      Kontagent.applicationAdded(params);
     }
+    apiKey = getProperty("KTAPIKey");
+    if (apiKey == null) {
+      Extension.debug("KTAPIKey is missing");
+      return;
+    }
+    androidId = Secure.getString(getActivity().getContentResolver(), Secure.ANDROID_ID);
+
+    boolean isTest = getBooleanProperty("KTTestMode");
+    mode = isTest ? Kontagent.TEST_MODE : Kontagent.PRODUCTION_MODE;
+    Extension.debug("Auto-initializing Kontagent(%s,%s)", apiKey, mode);
+    
+    // false means do not send an install immediately, since we need to make
+    // sure that this install did/didn’t come from an ad source
+    Kontagent.startSession(apiKey, getActivity(), mode, userId, false);
+    new KontagentPollInstallReceiver().execute();
+  }
+
+  static String getAndroidId() {
+    return androidId;
   }
 
   @Override

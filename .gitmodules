@@ -1,9 +1,6 @@
 [submodule "dist/mk"]
 	path = dist/mk
-	url = git@github.com:jlopez/air-mk.git
-[submodule "src/lib/kontagent"]
-	path = src/lib/kontagent
-	url = git://github.com/kontagent/actionscript-sdk.git
+	url = git@github.com:MichaelRando/air-mk.git
 [submodule "lib/ane"]
 	path = lib/ane
-	url = git@github.com:mindjolt/ane-helper.git
+	url = git@github.com:MichaelRando/ane-helper.git
