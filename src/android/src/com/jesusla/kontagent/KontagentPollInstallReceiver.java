@@ -50,7 +50,7 @@ public class KontagentPollInstallReceiver extends AsyncTask<Void, Void, Void> {
 			    }
 
 				  if ((uccParams.get("st1") != null)) {
-			  	  Kontagent.undirectedCommunicationClick(false, "ad", uccParams);
+					  Kontagent.undirectedCommunicationClick(false, "ad", uccParams);
 			    }
 		      
 		      break;
@@ -60,11 +60,11 @@ public class KontagentPollInstallReceiver extends AsyncTask<Void, Void, Void> {
     }
     catch (InterruptedException e) {
 	  	Extension.debug(e.toString());
-	  }
+	}
 
-	  // otherwise there was no referrer information, so we just send
-	  // a regular install message
-	  Kontagent.applicationAdded(apaParams);
-	  return null;
+		// otherwise there was no referrer information, so we just send
+		// a regular install message
+		Kontagent.applicationAdded(apaParams);
+		return null;
 	}
 }

@@ -24,7 +24,7 @@ public class InstallTracker extends BroadcastReceiver
     sharedPreferences = paramContext.getSharedPreferences("kontagent_mobile_aquisition", MODE_MULTI_PROCESS);
 
     String referrer = paramIntent.getStringExtra("referrer");
-    Extension.debug("Kontagent.onReceive referrer is:", referrer);
+    Extension.debug("Kontagent.onReceive referrer is: %s", referrer);
 	  if (referrer == null) {
       return;
     }
@@ -41,14 +41,16 @@ public class InstallTracker extends BroadcastReceiver
 
     if (parts.length >= 2) {
       pE.putString("st1", parts[1]);
+      Extension.debug("st1 = %s", parts[1]);
     }
     if (parts.length >= 3) {
       pE.putString("st2", parts[2]);
+      Extension.debug("st2 = %s", parts[2]);
     }
     // st1/2/3 are what let you drill down on Kontagent’s Ad page to
     // understand more about your ad campaigns, here we are using this to
     // indicate which provider (st1) and what Ad it was (st2)
-  
+    
     // indicate that there is a ucc with is_ucc; to be used later
     pE.putString("is_ucc", "yes");
     pE.commit();
